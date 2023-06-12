@@ -1,3 +1,14 @@
+Body {
+  background-color : #ecf3f8;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1976d2;
+  text-align: center;
+  text-transform: uppercase;
+}
 
 .fsImage {
   background-image: url("https://images.unsplash.com/photo-1517245386807-9b4d0dd8eac1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
@@ -42,6 +53,23 @@
       z-index: 1; 
 }
 
+.highlighted-row {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+.fullscreen-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8); 
+  z-index: 9999; 
+}
 
 @media (max-width: 767px) {
   /* Adjust styles for smaller screens */

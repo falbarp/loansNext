@@ -1,52 +1,53 @@
+import React from 'react';
 import { GetStaticProps, NextPage } from 'next';
-import { useState } from 'react';
-import { loansApi } from '@/helpers';
-import { LoanResponse, Loan } from '@/interfaces';
+import { loansApi, localFavs } from '@/helpers';
+import { Loan } from '@/interfaces';
 import { default as RootLayout } from '../app/layout';
 import Grid from '@mui/material/Grid';
 import { LoanCard } from '@/components/ui/LoanCard';
 
 interface Props {
   loans: Loan[];
-  isFavorite: boolean;
-  toggleFavorite: (loanId: string) => void;
 }
 
-
-const includedLoans = ["47dfd2a4df8b202babb8f6c", "647dfd2a4df8b202babb8f6b", "647dfd2a4df8b202babb8f69"];
-
 const FavsPage: NextPage<Props> = ({ loans }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const filteredLoans = loans.filter((loan) => includedLoans.includes('' + loan._id));
-
   const toggleFavorite = (loanId: string) => {
-    setIsFavorite((prevState) => !prevState);
-    // Perform additional logic to update the favorite status of the loan with the given ID
+    localFavs.toggleFavorite(loanId);
   };
 
+  const favoriteLoans = loans.filter((loan) =>
+    localFavs.existInFavorites(loan._id)
+  );
+
   return (
-    <RootLayout>
-      <h1>FAVORITOS</h1>
-      <Grid container spacing={2}>
-        {filteredLoans.map((loan) => (
-          <LoanCard
-            key={loan._id}
-            loan={loan}
-            isFavorite={isFavorite} // Pass the isFavorite state to the LoanCard component
-            toggleFavorite={toggleFavorite} // Pass the toggleFavorite function to the LoanCard component
-          />
-        ))}
-      </Grid>
-    </RootLayout>
+    <div>
+      <RootLayout>
+        <div>
+          <div>
+            < h1>FAVORITOS</h1>
+          </div> 
+          <Grid container spacing={2}>
+            {favoriteLoans.map((loan) => (
+              <Grid item key={loan._id} xs={12} sm={6} md={4} lg={3}>
+              <LoanCard
+              key={loan._id}
+              loan={loan}
+              isFavorite={true} 
+              toggleFavorite={toggleFavorite}/>
+                </Grid>
+              ))}
+          </Grid>
+        </div>          
+      </RootLayout>
+    </div>
   );
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { data } = await loansApi.get<LoanResponse>('/loans');
+export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+  const { data } = await loansApi.get<Loan[]>(`/loans`);
   return {
     props: {
-      loans: data || null,
+      loans: data || [],
     },
   };
 };

@@ -6,8 +6,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import RootLayout from "@/app/layout";
 import { Grid } from "@mui/material";
-
-
+import { LoanFullCard } from "@/components/ui";
 
 interface Props {
   loan: Loan;
@@ -17,10 +16,7 @@ const LoanPage: React.FC<Props> = ({ loan }) => {
   return (
     <RootLayout>
     <Grid container spacing={2}>
-    <div>
-      <h1>{loan.title}</h1>
-      <p>{loan.description}</p>
-    </div>
+    <LoanFullCard key={loan._id} loan={loan} />
     </Grid>
     </RootLayout>
   );

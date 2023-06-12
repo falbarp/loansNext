@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -103,8 +104,8 @@ export function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Salir</MenuItem>
+      <MenuItem component="a" href="/profile">Perfil</MenuItem>
+      <MenuItem  component="a" href="/" >Salir</MenuItem>
     </Menu>
   );
 
@@ -125,8 +126,9 @@ export function Navbar() {
       open={isLeftMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Menu Item 1</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Menu Item 2</MenuItem>
+      <MenuItem component="a" href="/dashboard">Préstamos</MenuItem>
+      <MenuItem component="a" href="/favs">Favoritos</MenuItem>
+      <MenuItem component="a" href="/comparator">Comparador</MenuItem>
     </Menu>
   );
 

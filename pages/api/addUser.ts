@@ -9,20 +9,21 @@ export default async function handler(
       return res.status(405).json({ message: 'Method Not Allowed' });
     }
   
-    const { loanId, userId, fav  } = req.body;
+    const { name, email } = req.body;
   
     try {
       const client = await pool.connect();
+      console.log (client)
       await client.query(
-        'INSERT INTO loanViewed (loanId, userId,isFavourite) VALUES ($1, $2, $3) ON CONFLICT (userId) DO UPDATE SET loanId = excluded.loanId;',
-        [loanId, userId, fav]
+        `INSERT INTO users (name, email) VALUES ($1, $2);`,
+        [name, email]
       );
   
       client.release();
   
-      return res.status(200).json({ message: 'User favs updated successfully' });
+      return res.status(200).json({ message: 'User created successfully' });
     } catch (error) {
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(500).json({error });
     }
   }
   
